@@ -106,16 +106,16 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
 
     println!();
-    println!("--- Sensors (via OpenHardwareMonitor) ---");
+    println!("--- Sensors (via LibreHardwareMonitor) ---");
 
     let com = COMLibrary::new()?;
-    let wmi = WMIConnection::with_namespace_path("root\\OpenHardwareMonitor", com.into())?;
+    let wmi = WMIConnection::with_namespace_path("root\\LibreHardwareMonitor", com.into())?;
 
     let results: Vec<HashMap<String, Variant>> =
         wmi.raw_query("SELECT Identifier, Name, SensorType, Value, Min, Max FROM Sensor")?;
 
     if results.is_empty() {
-        println!("(no sensors found — make sure OpenHardwareMonitor is running as Administrator)");
+        println!("(no sensors found — run LibreHardwareMonitor as Administrator)");
         return Ok(());
     }
 
@@ -128,7 +128,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         let max = extract_f32(row.get("Max"));
 
         println!(
-            "{:<20} | {:<12} | Cur: {:>8.2} | Min: {:>8.2} | Max: {:>8.2} | {}",
+            "{:<27} | {:<12} | Cur: {:>10.2} | Min: {:>10.2} | Max: {:>10.2} | {}",
             name, sensor_type, val, min, max, id
         );
     }
