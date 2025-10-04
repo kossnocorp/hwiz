@@ -1,7 +1,6 @@
 use std::collections::HashMap;
 
 use raw_cpuid::CpuId;
-use serde::Deserialize;
 use wmi::{COMLibrary, Variant, WMIConnection};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
